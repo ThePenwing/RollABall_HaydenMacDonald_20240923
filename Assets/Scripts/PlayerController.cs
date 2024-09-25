@@ -38,14 +38,18 @@ public class PlayerController : MonoBehaviour
         // Store the X and Y components of the movement.
         movementX = movementVector.x;
         movementY = movementVector.y;
+
+        //print("MovementX " + movementX);
+        //print("MovementY " + movementY);
     }
 
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
-        if (count >= 4)
+        if (count >= 8)
         {
             winTextObject.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 
