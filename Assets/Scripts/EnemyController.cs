@@ -7,28 +7,30 @@ public class EnemyController : MonoBehaviour
     public GameObject Player;
     public GameObject Enemy;
     public GameObject loseTextObject;
+    private Rigidbody rb;
     public float speed;
 
     void Start()
     {
         loseTextObject.SetActive(false);
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
-        Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, Player.transform.position, speed);
-        // Create a 3D movement vector using the X and Y inputs.
-        //Vector3 movement = new Vector3(movementX, 0.0f, movementY);
+        //Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, Player.transform.position, speed);
+        Vector3 direction = (Player.transform.position - transform.position).normalized;
 
-        // Apply force to the Rigidbody to move the player.
-        //rb.AddForce(movement * speed);
+        print(direction);
+
+        rb.AddForce(direction * speed);
+
     }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.name == "Player")
         {
-            print("test");
             loseTextObject.SetActive(true);
             Time.timeScale = 0;
         }
