@@ -58,8 +58,12 @@ public class PlayerController : MonoBehaviour
     {
         // Create a 3D movement vector using the X and Y inputs.
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
+        Vector3 camForward = Camera.main.transform.forward;
+        camForward.y = 0f;
+        Quaternion camRotationFlattened = Quaternion.LookRotation(camForward);
+        movement = camRotationFlattened * movement;
 
-        //print(movement);
+        print(movement);
 
         // Apply force to the Rigidbody to move the player.
         rb.AddForce(movement * speed);
