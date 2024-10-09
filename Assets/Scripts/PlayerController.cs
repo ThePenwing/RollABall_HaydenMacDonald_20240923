@@ -16,8 +16,11 @@ public class PlayerController : MonoBehaviour
 
     // Speed at which the player moves.
     public float speed = 0;
+    public float jumpPower = 0;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
+
+    private bool grounded = true;
 
     // Start is called before the first frame update.
     void Start()
@@ -63,10 +66,42 @@ public class PlayerController : MonoBehaviour
         Quaternion camRotationFlattened = Quaternion.LookRotation(camForward);
         movement = camRotationFlattened * movement;
 
-        print(movement);
+        //print(movement);
 
         // Apply force to the Rigidbody to move the player.
-        rb.AddForce(movement * speed);
+
+        if (grounded)
+        {
+            rb.AddForce(movement * speed);
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        var Height = GetComponent<SphereCollider>().radius;
+        bool grounded;
+
+        if (Physics.Raycast(transform.position, Vector3.down, Height * 1.1f))
+        {
+            print("Grounded");
+            grounded = true;
+        }
+        else
+        {
+            print("Not grounded");
+            grounded = false;
+        }
+        return grounded;
+    }
+
+    private void Update()
+    {
+        grounded = IsGrounded();
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        {
+            rb.AddForce(new Vector3(0, 1f, 0) * jumpPower);
+            print("Jumped");
+        }
     }
 
     void OnTriggerEnter(Collider other)
