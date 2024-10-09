@@ -59,6 +59,8 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate is called once per fixed frame-rate frame.
     private void FixedUpdate()
     {
+        grounded = IsGrounded();
+
         // Create a 3D movement vector using the X and Y inputs.
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
         Vector3 camForward = Camera.main.transform.forward;
@@ -85,18 +87,19 @@ public class PlayerController : MonoBehaviour
         {
             print("Grounded");
             grounded = true;
+            rb.drag = 0.25f;
         }
         else
         {
             print("Not grounded");
             grounded = false;
+            rb.drag = 0.1f;
         }
         return grounded;
     }
 
     private void Update()
     {
-        grounded = IsGrounded();
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
             rb.AddForce(new Vector3(0, 1f, 0) * jumpPower);
