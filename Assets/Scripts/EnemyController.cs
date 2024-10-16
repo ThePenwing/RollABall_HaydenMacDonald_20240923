@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             loseTextObject.SetActive(true);
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
     }
 
